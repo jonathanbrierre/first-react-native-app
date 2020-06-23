@@ -1,15 +1,34 @@
 import React from "react";
 import { Text, StyleSheet, View, Button, TouchableOpacity } from "react-native";
 
-const HomeScreen = () => {
+const HomeScreen = ( props ) => {
+  let navigate = props.navigation.navigate
+
   return( 
     <View>
-      <Text style={styles.text}>Hey Sexy</Text>
+      <Text style={styles.text}>Hey Beautiful</Text>
       <Button 
-        onPress = {()=>console.log('You touched the booty')}
-        title='Booty'
+        onPress = {()=> navigate('Components')}
+        title='Bananas'
       />
-      <TouchableOpacity onPress = {() => console.log('Adele is the GOAT')}>
+      <Button 
+        title = 'Image'
+        onPress = {() => navigate('Image')}
+      />
+      <Button 
+        title = 'Go to Counter Demo'
+        onPress = {() => navigate('Counter')}
+      />
+      <Button 
+        title = 'Go to Color Screen'
+        onPress = {() => navigate('Colors')}
+      />
+      <Button 
+        title = 'Go to Square Screen'
+        onPress = {() => navigate('Square')}
+      />
+
+      <TouchableOpacity onPress = {() => navigate('List')}>
         <Text style = {styles.buttonStyle}>Hello from the other side</Text>
       </TouchableOpacity>
     </View>
@@ -21,7 +40,10 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   buttonStyle: {
-    backgroundColor: 'red',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius:10,
+    textAlign: "center",
     width: 200
   }
 });

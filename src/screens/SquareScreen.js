@@ -1,32 +1,33 @@
-import React, {useState} from 'react';
+import React, { useReducer} from 'react';
 import { Text, StyleSheet, View, FlatList } from 'react-native'
 import ColorButtons from '../Components/ColorButtons';
 
+const COLOR_INCREMENT = 15
+
+const reducer = (state, action) => {
+
+    switch(action.type){
+        case 'change_red':
+            return state.red + action.payload > 255 || state.red + action.payload < 0 ? state : {...state, red: state.red + action.payload}
+        case 'change_green':
+            return state.green + action.payload > 255 || state.green + action.payload < 0 ? state : {...state, green: state.green + action.payload}
+        case 'change_blue':
+            return state.blue + action.payload > 255 || state.blue + action.payload < 0 ? state : {...state, blue: state.blue + action.payload}
+        default: 
+            return state
+    }
+}
 
 const SquareScreen = () => {
-
-    const [red, setRed] = useState(0)
-    const [blue, setBlue] = useState(0)
-    const [green, setGreen] = useState(0)
+    const [state, dispatch] = useReducer(reducer, {red: 0, green: 0, blue: 0})
 
 
-    const setColor = (color, int) => {
-        if(color === 'Red'){
-            setRed(red + int)
-        }else if(color === 'Blue'){
-            setBlue(blue +int)
-        }else if(color === 'Green'){
-            setGreen(green + int)
-        }
-    }
-
-    console.log(green)
     return (
         <View>
-            <ColorButtons color = 'Red' setColor = {setColor} thisColor = {red}/>
-            <ColorButtons color = 'Green' setColor = {setColor} thisColor = {green}/>
-            <ColorButtons color = 'Blue' setColor = {setColor} thisColor = {blue}/>
-            <View style = {{width: 100, height: 100, backgroundColor: `rgb(${red}, ${green}, ${blue})`}}/>
+            <ColorButtons color = 'Red'  onIncrease = {()=> dispatch({type:'change_red', payload: 15})} onDecrease = {()=>dispatch({type:'change_red', payload: -15})} />
+            <ColorButtons color = 'Green'   onIncrease = {()=>dispatch({type:'change_green', payload: 15})} onDecrease = {()=>dispatch({type:'change_green', payload: -15})} />
+            <ColorButtons color = 'Blue'   onIncrease = {()=> dispatch({type:'change_blue', payload: 15})} onDecrease = {()=>dispatch({type:'change_blue', payload: -15})}/>
+            <View style = {{width: 100, height: 100, backgroundColor: `rgb(${state.red}, ${state.green}, ${state.blue})`}}/>
         </View>
     )
 }
